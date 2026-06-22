@@ -24,14 +24,14 @@ Aplicação web desenvolvida em Python com Flask para controle de finanças pess
 ## Estrutura do projeto
 
 ## financer/
-## app.py              # Rotas e lógica principal
-## database.py         # Conexão e criação do banco de dados
-## requirements.txt    # Dependências do projeto
+## app.py              Rotas e lógica principal
+## database.py         Conexão e criação do banco de dados
+## requirements.txt    Dependências do projeto
 ## templates/
-  index.html      # Página principal
-  relatorios.html # Página de gráficos
-  login.html      # Página de login
-  cadastro.html   # Página de cadastro
+    index.html      -Página principal
+    relatorios.html -Página de gráficos
+    login.html      -Página de login
+    cadastro.html   -Página de cadastro
 ## static/
     style.css       # Estilos da interface
 
