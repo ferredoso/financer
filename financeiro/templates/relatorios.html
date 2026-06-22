@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>💰 Controle Financeiro</h1>
+        <nav>
+            <a href="/">Início</a>
+            <a href="/relatorios">Relatórios</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="graficos">
+
+            <div class="grafico-box">
+                <h3>Despesas por Categoria</h3>
+                {% if despesas %}
+                <canvas id="graficoDespesas"></canvas>
+                {% else %}
+                <p class="vazio">Nenhuma despesa registrada ainda.</p>
+                {% endif %}
+            </div>
+
+            <div class="grafico-box">
+                <h3>Receitas por Categoria</h3>
+                {% if receitas %}
+                <canvas id="graficoReceitas"></canvas>
+                {% else %}
+                <p class="vazio">Nenhuma receita registrada ainda.</p>
+                {% endif %}
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        const coresPadrao = [
+            '#e74c3c','#3498db','#2ecc71','#f39c12',
+            '#9b59b6','#1abc9c','#e67e22','#34495e'
+        ];
+
+        {% if despesas %}
+        new Chart(document.getElementById('graficoDespesas'), {
+            type: 'doughnut',
+            data: {
+                labels: [{% for d in despesas %}'{{ d[0] }}',{% endfor %}],
+                datasets: [{
+                    data: [{% for d in despesas %}{{ d[1] }},{% endfor %}],
+                    backgroundColor: coresPadrao
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+        {% endif %}
+
+        {% if receitas %}
+        new Chart(document.getElementById('graficoReceitas'), {
+            type: 'doughnut',
+            data: {
+                labels: [{% for r in receitas %}'{{ r[0] }}',{% endfor %}],
+                datasets: [{
+                    data: [{% for r in receitas %}{{ r[1] }},{% endfor %}],
+                    backgroundColor: coresPadrao
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+        {% endif %}
+    </script>
+
+</body>
+</html>

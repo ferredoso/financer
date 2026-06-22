@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle Financeiro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>💰 Financer</h1>
+    <nav>
+        <span>Olá, {{ current_user.nome }}</span>
+        <a href="/">Início</a>
+        <a href="/relatorios">Relatórios</a>
+        <a href="/logout" class="sair">Sair</a>
+    </nav>
+</header>
+
+<main>
+
+    <section class="resumo">
+        <div class="card receita">
+            <p><span class="indicador"></span>Receitas</p>
+            <h2>R$ {{ total_receitas|moeda }}</h2>
+        </div>
+        <div class="card despesa">
+            <p><span class="indicador"></span>Despesas</p>
+            <h2>R$ {{ total_despesas|moeda }}</h2>
+        </div>
+        <div class="card {% if saldo >= 0 %}positivo{% else %}negativo{% endif %}">
+            <p><span class="indicador"></span>Saldo atual</p>
+            <h2>R$ {{ saldo|moeda }}</h2>
+        </div>
+    </section>
+
+    <section class="formulario">
+        <h3>Nova transação</h3>
+        <form action="/adicionar" method="POST">
+            <select name="tipo" required>
+                <option value="">Tipo</option>
+                <option value="receita">Receita</option>
+                <option value="despesa">Despesa</option>
+            </select>
+            <input type="text" name="descricao" placeholder="Descrição" required>
+            <input type="number" name="valor" placeholder="Valor (R$)" step="0.01" min="0" required>
+            <select name="categoria" required>
+                <option value="">Categoria</option>
+                <option value="Alimentação">Alimentação</option>
+                <option value="Transporte">Transporte</option>
+                <option value="Saúde">Saúde</option>
+                <option value="Lazer">Lazer</option>
+                <option value="Educação">Educação</option>
+                <option value="Salário">Salário</option>
+                <option value="Outros">Outros</option>
+            </select>
+            <button type="submit">+ Adicionar</button>
+        </form>
+    </section>
+
+    <section class="transacoes">
+        <h3>Histórico</h3>
+        {% if transacoes %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>Categoria</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in transacoes %}
+                <tr>
+                    <td>{{ t['data'] }}</td>
+                    <td>{{ t['descricao'] }}</td>
+                    <td>{{ t['categoria'] }}</td>
+                    <td><span class="badge {{ t['tipo'] }}">{{ t['tipo']|capitalize }}</span></td>
+                    <td class="valor {{ t['tipo'] }}">R$ {{ t['valor']|moeda }}</td>
+                    <td><a href="/deletar/{{ t['id'] }}" class="btn-deletar">Excluir</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="vazio">Nenhuma transação registrada ainda.</p>
+        {% endif %}
+    </section>
+
+</main>
+
+</body>
+</html>

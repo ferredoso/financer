@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+    <h1>💰 Financer</h1>
+    <nav></nav>
+</header>
+<main>
+    <div class="auth-box">
+        <h3>Bem-vindo de volta</h3>
+        <p class="subtitulo">Entre na sua conta para continuar</p>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for categoria, mensagem in messages %}
+                <p class="flash {{ categoria }}">{{ mensagem }}</p>
+            {% endfor %}
+        {% endwith %}
+        <form method="POST">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="senha" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <p class="rodape">Não tem conta? <a href="/cadastro">Cadastre-se grátis</a></p>
+    </div>
+</main>
+</body>
+</html>

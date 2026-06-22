@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+    <h1>💰 Financer</h1>
+    <nav></nav>
+</header>
+<main>
+    <div class="auth-box">
+        <h3>Criar conta</h3>
+        <p class="subtitulo">Comece a controlar suas finanças hoje</p>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for categoria, mensagem in messages %}
+                <p class="flash {{ categoria }}">{{ mensagem }}</p>
+            {% endfor %}
+        {% endwith %}
+        <form method="POST">
+            <input type="text" name="nome" placeholder="Seu nome" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="senha" placeholder="Senha" required>
+            <button type="submit">Criar conta</button>
+        </form>
+        <p class="rodape">Já tem conta? <a href="/login">Fazer login</a></p>
+    </div>
+</main>
+</body>
+</html>
